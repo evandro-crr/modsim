@@ -1,61 +1,84 @@
-#include <string>
+#include "funcoes.h"
 #include <stdexcept>
 #include <sstream>
 #include <random>
-#include "funcoes.h"
+#include <cmath>
 
 namespace func {
-  using func = double (*)(void);
+    using func = double (*)(void);
 
-  double media, dp, min, moda, max = 0;
+    /* To use lambda functions the values of the parameters need to be
+       global because lambda does not 'capture' since c++ 11 */
+    double media, dp, min, moda, max = 0;
 
-  func parse(std::string text) {
+    /* Using random device as seed */
+    std::random_device rd;
+    std::mt19937 generator(rd());
 
-    std::stringstream ss(text);
-    std::string distribuition;
-    ss >> distribuition;
+    /* Receives a string in form 'distribution value value' with the name
+       of the distribution and its values separeted by spaces
+       
+       Accepted strings are:
+            'expo value';
+            'norm value value';
+            'tria value value value';
+            'unif value value';
+     */
+    func parse(std::string text) {
 
-    if(distribuition.compare("expo") == 0) {
-      ss >> media;
-      return []() { return expo(media);};
+        std::stringstream ss(text);
+        std::string distribution;
+        ss >> distribution;
+
+        if(distribution.compare("expo") == 0) {
+            ss >> media;
+            return []() { return expo(media);};
+        }
+
+        if(distribution.compare("norm") == 0) {
+            ss >> media;
+            ss >> dp;
+            return []() { return norm(media, dp);};
+        }
+
+        if(distribution.compare("tria") == 0) {
+            ss >> min;
+            ss >> moda;
+            ss >> max;
+            return []() { return tria(min, moda, max);};
+        }
+
+        if(distribution.compare("unif") == 0) {
+            ss >> min;
+            ss >> max;
+            return []() { return unif(min, max);};
+        }
+
+        throw std::invalid_argument("Use 'expo', 'norm', 'tria' or 'unif'!");
     }
 
-    if(distribuition.compare("norm") == 0) {
-      ss >> media;
-      ss >> dp;
-      return []() { return norm(media, dp);};
+    double expo(double media) {
+        std::exponential_distribution<> exponential(media);
+        return exponential(generator);
     }
 
-    if(distribuition.compare("tria") == 0) {
-      ss >> min;
-      ss >> moda;
-      ss >> max;
-      return []() { return tria(min, moda, max);};
+    double norm(double media, double dp) {
+        std::normal_distribution<> normal(media, dp);
+        return normal(generator);
     }
 
-    if(distribuition.compare("unif") == 0) {
-      ss >> min;
-      ss >> max;
-      return []() { return unif(min, max);};
+    double tria(double min, double moda, double max) {
+        double u = unif(0, 1.0);
+        if(0 <= u && u <= (moda-min)/(max-min))
+            return min + std::sqrt(u * (moda - min) * (max - min));
+
+        if((moda-min)/(max-min) < u && u <= 1)
+            return max - std::sqrt((1 - u) * (max - moda) * (max - min));
     }
 
-    throw std::invalid_argument("Use 'expo', 'norm', 'tria' or 'unif'!");
-  }
-
-  double expo(double media) {
-  	return media;
-  }
-
-  double norm(double media, double dp) {
-    return media+dp;
-  }
-
-  double tria(double min, double moda, double max) {
-    return min+moda+max;
-  }
-
-  double unif(double min, double max) {
-    return min+max;
-  }
+    double unif(double min, double max) {
+        std::uniform_real_distribution<double> uniform(min, max);
+        return uniform(generator);
+    }
 
 }
