@@ -2,8 +2,55 @@
 #define ENTIDADE_H
 #include "funcoes.h"
 #include <set>
+#include <functional>
+#include <queue>
 
 namespace mod {
+
+  class Event{
+  public:
+    template<class F>
+    Event(F call, double time) : call{call}, time_{time} {}
+
+    void operator()() const{
+      call();
+    }
+
+    operator double() const {
+      return time_;
+
+    }
+
+    bool operator<(const Event &other) const {
+      return time_ < (double) other;
+
+    }
+
+  private:
+    std::function<void()> call;
+    const double time_;
+
+  };
+
+  class Oraculo{
+  public:
+    Oraculo (double tempo_total) : tempo_total{tempo_total} {}
+
+    void add_event(const Event &evento);
+
+    bool run(double limit);
+
+    double time() const {
+      return time_;
+    }
+
+  private:
+    double time_{0};
+    const double tempo_total;
+    std::multiset<Event> events{};
+
+  };
+
   class Entidade {
   public:
     enum Tipo {
@@ -15,49 +62,37 @@ namespace mod {
       : begin{begin}, tipo_{tipo} {}
 
     Tipo tipo() const {
-      return tipo;
+      return tipo_;
     }
 
     double tempo_total(double time) const {
       return time - begin;
     }
 
+    double tempo_fila() const {
+      return fila_end  - fila_begin;
+    }
+
+    void begin_fila(double time) {
+      fila_begin = time;
+    }
+    void end_fila(double time) {
+      fila_end = time;
+    }
+
   private:
     double begin;
-    double fila_begin, file_end;
+    double fila_begin, fila_end;
     Tipo tipo_;
-
-  };
-
-  class Chegada {
-  public:
-    Chegada(Oraculo oraculo, func::func tec, Entidade::Tipo tipo, Servidor &primario, Servidor &secundario)
-      : oraculo{oraculo}, tec{tec}, tipo{tipo}, primario{primario}, secundario{secundario} {}
-  private:
-    Oraculo &Oraculo;
-    func::func tec;
-    Entidade::Tipo tipo;
-    Servidor &primario, &secundario;
-    unsigned entradas{0}, trocas{0}, perdas{0};
-  };
-
-  class Servidor{
-  public:
-    Servidor(Oraculo &oraculo, func::func ts, func::func tef, func::func tf, Saida saida, unsigned tfe = 0)
-      : oraculo{oraculo}, ts{ts}, tef{tef}, tf{tf}, saida{saida}, tfe{tfe} {}
-  private:
-    Oraculo &oraculo;
-    func::func ts, tef, tf;
-    Saida saida;
-    unsigned tfe, fila{0};
-    unsigned n_falhas{0};
-    double t_servico{0}, t_falha{0};
 
   };
 
   class Saida{
   public:
     Saida(Oraculo &oraculo);
+
+    void evento_saida(Entidade entidade);
+
   private:
     Oraculo &oraculo;
     unsigned um{0}, dois{0};
@@ -66,12 +101,71 @@ namespace mod {
 
   };
 
-  class Oraculo{
+  class Servidor{
   public:
-    using event = void (*)(double);
+    Servidor(Oraculo &oraculo, func::func ts, func::func tef, func::func tf, Saida saida, unsigned tfe = 0)
+      : oraculo{oraculo}, ts{ts}, tef{tef}, tf{tf}, saida{saida}, tfe{tfe} {}
+
+    bool add_entidade(Entidade entidade);
+    void executar_proximo(bool recuperacao);
+    void programar_falha();
+
   private:
-    std::set<event> events;
+    Oraculo &oraculo;
+    func::func ts, tef, tf;
+    Saida saida;
+    std::queue<Entidade> fila;
+    unsigned tfe;
+    bool em_falha{false};
+    unsigned n_falhas{0};
+    double t_servico{0}, t_falha{0};
+    double begin_ocupado, begin_falha;
+    bool ocupado{false};
+
   };
+
+  class Chegada {
+  public:
+    Chegada(Oraculo &oraculo, func::func tec, Entidade::Tipo tipo, Servidor &primario, Servidor &secundario)
+      : oraculo{oraculo}, tec{tec}, tipo{tipo}, primario{primario}, secundario{secundario} {}
+
+    void add_chegada();
+
+  private:
+    Oraculo &oraculo;
+    func::func tec;
+    Entidade::Tipo tipo;
+    Servidor &primario, &secundario;
+    unsigned entradas{0}, trocas{0};
+    inline static unsigned perdas{0};
+  };
+
+  class Estado {
+  public:
+
+    Estado(func::func tec1, func::func ts1, func::func tef1, func::func tf1, unsigned tfe1,
+           func::func tec2, func::func ts2, func::func tef2, func::func tf2, unsigned tfe2,
+           double tempo_total)
+      : oraculo{tempo_total}, saida{oraculo},
+        servidor1{oraculo, ts1, tef1, tf1, saida, tfe1},
+        servidor2{oraculo, ts2, tef2, tf2, saida, tfe2},
+        chegada1{oraculo, tec1, Entidade::um, servidor1, servidor2},
+        chegada2{oraculo, tec2, Entidade::dois, servidor2, servidor1}
+    {
+      chegada1.add_chegada();
+      chegada2.add_chegada();
+    }
+
+   private:
+    Oraculo oraculo;
+    Saida saida;
+    Servidor servidor1;
+    Servidor servidor2;
+    Chegada chegada1;
+    Chegada chegada2;
+
+  };
+
 }
 
 #endif // ENTIDADE_H
