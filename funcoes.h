@@ -1,9 +1,10 @@
 #ifndef FUNCOES_H
 #define FUNCOES_H
 #include <string>
+#include <functional>
 
 namespace func {
-    using func = double (*)(void);
+    using func = std::function<double()>;
 
     func parse(std::string text); 
     double expo(double media);

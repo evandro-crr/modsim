@@ -5,13 +5,8 @@
 #include <cmath>
 
 namespace func {
-    using func = double (*)(void);
 
-    /* To use lambda functions the values of the parameters need to be
-       global because lambda does not 'capture' since c++ 11 */
-    double media, dp, min, moda, max = 0;
-
-    /* Using random device as seed */
+  /* Using random device as seed */
     std::random_device rd;
     std::mt19937 generator(rd());
 
@@ -25,6 +20,7 @@ namespace func {
             'unif value value';
      */
     func parse(std::string text) {
+        double media, dp, min, moda, max = 0;
 
         std::stringstream ss(text);
         std::string distribution;
@@ -32,26 +28,26 @@ namespace func {
 
         if(distribution.compare("expo") == 0) {
             ss >> media;
-            return []() { return expo(media);};
+            return [=]() { return expo(media);};
         }
 
         if(distribution.compare("norm") == 0) {
             ss >> media;
             ss >> dp;
-            return []() { return norm(media, dp);};
+            return [=]() { return norm(media, dp);};
         }
 
         if(distribution.compare("tria") == 0) {
             ss >> min;
             ss >> moda;
             ss >> max;
-            return []() { return tria(min, moda, max);};
+            return [=]() { return tria(min, moda, max);};
         }
 
         if(distribution.compare("unif") == 0) {
             ss >> min;
             ss >> max;
-            return []() { return unif(min, max);};
+            return [=]() { return unif(min, max);};
         }
 
         throw std::invalid_argument("Use 'expo', 'norm', 'tria' or 'unif'!");
