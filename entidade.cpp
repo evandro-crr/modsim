@@ -8,11 +8,11 @@ bool mod::Oraculo::run(double limit) {
   auto end = time_ + limit;
 
   while(time_ < end and time_ < tempo_total ) {
-    auto event = events.begin();
+    auto event = *(events.begin());
 
-    if (*event < end and *event < tempo_total)
-      (*event)();
-    time_ = *event;
+    if (event < end and event < tempo_total)
+      event();
+    time_ = event;
   }
 
   return not (time_ < tempo_total);
@@ -35,7 +35,7 @@ void mod::Chegada::add_chegada() {
 
 bool mod::Servidor::add_entidade(Entidade entidade) {
 
-  if (tfe > 0 and fila.size() > tfe and not em_falha) return false;
+  if ((tfe > 0 and fila.size() > tfe) or em_falha) return false;
   entidade.begin_fila(oraculo.time());
   fila.push(entidade);
   executar_proximo(false);
@@ -92,7 +92,7 @@ void mod::Servidor::programar_falha() {
       t_servico += oraculo.time() - begin_ocupado;
     }
 
-    auto recuracao = [&] () {
+    auto recuperacao = [&] () {
       em_falha = false;
       t_falha += oraculo.time() - begin_falha;
 
@@ -100,7 +100,7 @@ void mod::Servidor::programar_falha() {
       programar_falha();
     };
 
-    oraculo.add_event(Event{recuracao, oraculo.time() + tf()});
+    oraculo.add_event(Event{recuperacao, oraculo.time() + tf()});
   };
 
   oraculo.add_event(Event{event, oraculo.time()+tef()});

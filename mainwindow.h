@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "entidade.h"
+#include <memory>
 
 namespace Ui {
   class MainWindow;
@@ -23,7 +24,7 @@ private slots:
 
 private:
   Ui::MainWindow *ui;
-  mod::Estado *state;
+  std::unique_ptr<mod::Estado> state;
 };
 
 #endif // MAINWINDOW_H
