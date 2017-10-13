@@ -143,14 +143,14 @@ namespace mod {
   class Estado {
   public:
 
-    Estado(func::func tec1, func::func ts1, func::func tef1, func::func tf1, unsigned tfe1,
-           func::func tec2, func::func ts2, func::func tef2, func::func tf2, unsigned tfe2,
+    Estado(std::string tec1, std::string ts1, std::string tef1, std::string tf1, unsigned tfe1,
+           std::string tec2, std::string ts2, std::string tef2, std::string tf2, unsigned tfe2,
            double tempo_total)
       : oraculo{tempo_total}, saida{oraculo},
-        servidor1{oraculo, ts1, tef1, tf1, saida, tfe1},
-        servidor2{oraculo, ts2, tef2, tf2, saida, tfe2},
-        chegada1{oraculo, tec1, Entidade::um, servidor1, servidor2},
-        chegada2{oraculo, tec2, Entidade::dois, servidor2, servidor1}
+        servidor1{oraculo, func::parse(ts1), func::parse(tef1), func::parse(tf1), saida, tfe1},
+        servidor2{oraculo, func::parse(ts2), func::parse(tef2), func::parse(tf2), saida, tfe2},
+        chegada1{oraculo, func::parse(tec1), Entidade::um, servidor1, servidor2},
+        chegada2{oraculo, func::parse(tec2), Entidade::dois, servidor2, servidor1}
     {
       chegada1.add_chegada();
       chegada2.add_chegada();
