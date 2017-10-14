@@ -28,6 +28,10 @@ private slots:
   void on_cancelar_clicked();
 
 private:
+
+  void update_relatorio();
+  void terminar_sim();
+
   Ui::MainWindow *ui;
   std::unique_ptr<mod::Estado> state;
 };

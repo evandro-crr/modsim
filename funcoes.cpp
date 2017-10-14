@@ -50,6 +50,11 @@ namespace func {
             return [=]() { return unif(min, max);};
         }
 
+        if (distribution.compare("cons") == 0) {
+            ss >> moda;
+            return [=]() {  return moda;};
+        }
+
         throw std::invalid_argument("Use 'expo', 'norm', 'tria' or 'unif'!");
     }
 

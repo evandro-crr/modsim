@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -15,8 +16,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_executar_clicked()
 {
-    ui->setup->setEnabled(false);
-
     std::string tec1 = ui->t_tec1->toPlainText().toStdString();
     std::string ts1 = ui->t_ts1->toPlainText().toStdString();
     unsigned tfe1 = (unsigned)ui->t_tfe1->toPlainText().toInt();
@@ -31,18 +30,38 @@ void MainWindow::on_executar_clicked()
 
     double tempo_total = ui->t_tempo->toPlainText().toDouble();
 
-    state = std::make_unique<mod::Estado>(tec1, ts1, tef1, tf1, tfe1,
-                                          tec2, ts2, tef2, tf2, tfe2,
-                                          tempo_total);
+    try {
+      state = std::make_unique<mod::Estado>(tec1, ts1, tef1, tf1, tfe1,
+                                            tec2, ts2, tef2, tf2, tfe2,
+                                            tempo_total);
+      ui->setup->setEnabled(false);
+      ui->simulacao->setEnabled(true);
+    } catch (std::invalid_argument &e) {
+      QMessageBox messege{this};
+      messege.setText(e.what());
+      messege.exec();
+    }
+
 }
 
 
 
 void MainWindow::on_avancar_clicked()
 {
+    ui->simulacao->setEnabled(false);
     double tempo = ui->t_exec->toPlainText().toDouble();
 
-    // Passa o tempo para o oráculo?
+    auto end = state->run(tempo);
+    update_relatorio();
+    ui->simulacao->setEnabled(true);
+    if (end) terminar_sim();
+}
+
+void MainWindow::update_relatorio() {}
+
+void MainWindow::terminar_sim() {
+  ui->setup->setEnabled(true);
+  ui->simulacao->setEnabled(false);
 }
 
 void MainWindow::on_terminar_clicked()
@@ -50,10 +69,13 @@ void MainWindow::on_terminar_clicked()
     // executar com o tempo total
 
     double tempo_total = ui->t_tempo->toPlainText().toDouble();
+    state->run(tempo_total);
+    terminar_sim();
 }
 
 void MainWindow::on_cancelar_clicked()
 {
+    /*
     ui->t_tec1->setText("");
     ui->t_ts1->setText("");
     ui->t_tfe1->setText("");
@@ -69,8 +91,8 @@ void MainWindow::on_cancelar_clicked()
     ui->t_tempo->setText("");
     ui->t_path->setText("");
     ui->t_exec->setText("");
-
-    // Como parar a simulacao se estiver no meio dela?
+    */
 
     ui->setup->setEnabled(true);
+    ui->simulacao->setEnabled(false);
 }

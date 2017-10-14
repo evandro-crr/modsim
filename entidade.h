@@ -2,6 +2,7 @@
 #define ENTIDADE_H
 #include "funcoes.h"
 #include <set>
+#include <sstream>
 #include <functional>
 #include <queue>
 
@@ -10,7 +11,7 @@ namespace mod {
   class Event{
   public:
     template<class F>
-    Event(F call, double time) : call{call}, time_{time} {}
+    Event(F call, double time, std::string text) : call{call}, time_{time}, text{text} {}
 
     void operator()() const{
       call();
@@ -21,6 +22,12 @@ namespace mod {
 
     }
 
+    operator std::string () const {
+      std::stringstream aux;
+      aux << text << " time(" << time_ << ")";
+      return aux.str();
+    }
+
     bool operator<(const Event &other) const {
       return time_ < (double) other;
 
@@ -29,6 +36,7 @@ namespace mod {
   private:
     std::function<void()> call;
     const double time_;
+    const std::string text;
 
   };
 
@@ -36,7 +44,8 @@ namespace mod {
   public:
     Oraculo (double tempo_total) : tempo_total{tempo_total} {}
 
-    void add_event(const Event &evento);
+    template<class F>
+    void add_event(F call, double time, std::string text);
 
     bool run(double limit);
 
@@ -154,6 +163,10 @@ namespace mod {
     {
       chegada1.add_chegada();
       chegada2.add_chegada();
+    }
+
+    bool run(double limit) {
+      return oraculo.run(limit);
     }
 
    private:

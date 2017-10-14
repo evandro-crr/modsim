@@ -1,7 +1,10 @@
 #include "entidade.h"
+#include <iostream>
 
-void mod::Oraculo::add_event(const Event &evento) {
-  events.insert(evento);
+template <class F>
+void mod::Oraculo::add_event(F call, double time, std::string text) {
+  std::cout << "add: " << text << "\n";
+  events.insert(Event{call, time, text});
 }
 
 bool mod::Oraculo::run(double limit) {
@@ -10,9 +13,12 @@ bool mod::Oraculo::run(double limit) {
   while(time_ < end and time_ < tempo_total ) {
     auto event = *(events.begin());
 
-    if (event < end and event < tempo_total)
+    if (event < end and event < tempo_total) {
+      std::cout << "exec: " << (std::string)event << "\n";
       event();
+    }
     time_ = event;
+    events.erase(events.begin());
   }
 
   return not (time_ < tempo_total);
@@ -28,9 +34,10 @@ void mod::Chegada::add_chegada() {
         trocas++;
       } else perdas++;
     }
+    add_chegada();
   };
 
-  oraculo.add_event(Event{event, oraculo.time()+tec()});
+  oraculo.add_event(event, oraculo.time() + tec(), "Evento Chegada");
 }
 
 bool mod::Servidor::add_entidade(Entidade entidade) {
@@ -64,7 +71,7 @@ void mod::Servidor::executar_proximo(bool recuperacao) {
       executar_proximo(true);
     };
 
-    oraculo.add_event(Event{event, oraculo.time()+ts()});
+    oraculo.add_event(event, oraculo.time()+ts(), "Sair do servidor");
   }
 }
 
@@ -100,9 +107,9 @@ void mod::Servidor::programar_falha() {
       programar_falha();
     };
 
-    oraculo.add_event(Event{recuperacao, oraculo.time() + tf()});
+    oraculo.add_event(recuperacao, oraculo.time() + tf(), "Serdidor voltou");
   };
 
-  oraculo.add_event(Event{event, oraculo.time()+tef()});
+  oraculo.add_event(event, oraculo.time()+tef(), "Servidro em falha");
 
 }
