@@ -89,7 +89,7 @@ namespace mod {
 
   class Saida{
   public:
-    Saida(Oraculo &oraculo);
+    Saida(Oraculo &oraculo) : oraculo{oraculo} {}
 
     void evento_saida(Entidade entidade);
 
