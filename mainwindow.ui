@@ -84,7 +84,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QTextEdit" name="t_ts2">
+    <widget class="QTextEdit" name="t_tfe2">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -180,7 +180,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>320</y>
+       <y>280</y>
        <width>51</width>
        <height>16</height>
       </rect>
@@ -306,7 +306,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="run">
+    <widget class="QPushButton" name="executar">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -356,7 +356,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>280</y>
+       <y>320</y>
        <width>51</width>
        <height>16</height>
       </rect>
@@ -367,10 +367,10 @@
       </font>
      </property>
      <property name="text">
-      <string>TF1</string>
+      <string>TFE2</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="t_tfe2">
+    <widget class="QTextEdit" name="t_ts2">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -381,7 +381,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="relatorio">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -875,7 +875,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="simulacao">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -887,7 +887,7 @@
     <property name="title">
      <string>Execução</string>
     </property>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="t_exec">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -902,7 +902,7 @@
       </font>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="avancar">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -920,7 +920,7 @@
       <string>Avançar</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="terminar">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -938,7 +938,7 @@
       <string>Terminar simulação</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="cancelar">
      <property name="geometry">
       <rect>
        <x>10</x>
