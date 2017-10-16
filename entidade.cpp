@@ -3,21 +3,26 @@
 
 template <class F>
 void mod::Oraculo::add_event(F call, double time, std::string text) {
-  std::cout << "add: " << text << "\n";
+  std::cout << "add: " << text << "(" << time << ")\n";
   events.insert(Event{call, time, text});
 }
 
 bool mod::Oraculo::run(double limit) {
   auto end = time_ + limit;
 
-  while(time_ < end and time_ < tempo_total ) {
+  while(time_ <= end and time_ <= tempo_total ) {
+    std::cout << "time: " << time_ << " end " << end << " total " << tempo_total <<  "\n";
     auto event = *(events.begin());
 
-    if (event < end and event < tempo_total) {
-      std::cout << "exec: " << (std::string)event << "\n";
-      event();
+    if (event > end or event > tempo_total) {
+      time_ = end;
+      break;
     }
+
+    std::cout << "exec: " << (std::string)event << "\n";
     time_ = event;
+    event();
+
     events.erase(events.begin());
   }
 
