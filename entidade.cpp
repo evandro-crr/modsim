@@ -115,6 +115,6 @@ void mod::Servidor::programar_falha() {
     oraculo.add_event(recuperacao, oraculo.time() + tf(), "Serdidor voltou");
   };
 
-  oraculo.add_event(event, oraculo.time()+tef(), "Servidro em falha");
+  oraculo.add_event(event, oraculo.time()+tef(), "Servidor em falha");
 
 }

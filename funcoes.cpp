@@ -55,7 +55,7 @@ namespace func {
             return [=]() {  return moda;};
         }
 
-        throw std::invalid_argument("Use 'expo', 'norm', 'tria' or 'unif'!");
+        throw std::invalid_argument("Use 'expo', 'norm', 'tria', 'unif' or 'cons'!");
     }
 
     double expo(double media) {

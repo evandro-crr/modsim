@@ -113,7 +113,7 @@ namespace mod {
   class Servidor{
   public:
     Servidor(Oraculo &oraculo, func::func ts, func::func tef, func::func tf, Saida saida, unsigned tfe = 0)
-      : oraculo{oraculo}, ts{ts}, tef{tef}, tf{tf}, saida{saida}, tfe{tfe} {}
+      : oraculo{oraculo}, ts{ts}, tef{tef}, tf{tf}, saida{saida}, tfe{tfe} {programar_falha();}
 
     bool add_entidade(Entidade entidade);
     void executar_proximo(bool recuperacao);

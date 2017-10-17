@@ -71,28 +71,12 @@ void MainWindow::on_terminar_clicked()
     double tempo_total = ui->t_tempo->toPlainText().toDouble();
     state->run(tempo_total);
     terminar_sim();
+    //QString str = QString::fromStdString(std::to_string(state->chegada1.perdas));
+    //ui->label->setText(str);
 }
 
 void MainWindow::on_cancelar_clicked()
 {
-    /*
-    ui->t_tec1->setText("");
-    ui->t_ts1->setText("");
-    ui->t_tfe1->setText("");
-    ui->t_tef1->setText("");
-    ui->t_tf1->setText("");
-
-    ui->t_tec2->setText("");
-    ui->t_ts2->setText("");
-    ui->t_tfe2->setText("");
-    ui->t_tef2->setText("");
-    ui->t_tf2->setText("");
-
-    ui->t_tempo->setText("");
-    ui->t_path->setText("");
-    ui->t_exec->setText("");
-    */
-
     ui->setup->setEnabled(true);
     ui->simulacao->setEnabled(false);
 }
