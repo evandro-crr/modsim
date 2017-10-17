@@ -129,6 +129,18 @@ namespace mod {
     void executar_proximo(bool recuperacao);
     void programar_falha();
 
+    unsigned get_n_falhas() {
+        return n_falhas;
+    }
+
+    double get_t_falha() {
+        return t_falha;
+    }
+
+    double get_t_servico() {
+        return t_servico;
+    }
+
   private:
     Oraculo &oraculo;
     func::func ts, tef, tf;

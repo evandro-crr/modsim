@@ -58,6 +58,9 @@ void MainWindow::on_avancar_clicked()
 void MainWindow::update_relatorio()
 {
     //QString::fromStdString(std::to_string())
+
+
+
     unsigned perdas1 = state->get_chegada1().get_perdas();
     unsigned entraram1 = state->get_chegada1().get_entradas();
     unsigned entraram_s1 = entraram1-perdas1;
@@ -70,7 +73,6 @@ void MainWindow::update_relatorio()
 
     unsigned saida1 = state->get_saida().get_n_t1();
     unsigned saida2 = state->get_saida().get_n_t2();
-
     ui->sairam_t1->setText(QString::fromStdString(std::to_string(saida1)));
     ui->sairam_t2->setText(QString::fromStdString(std::to_string(saida2)));
 
@@ -79,8 +81,30 @@ void MainWindow::update_relatorio()
     ui->permanecem_t1->setText(QString::fromStdString(std::to_string(permanecem1)));
     ui->permanecem_t2->setText(QString::fromStdString(std::to_string(permanecem2)));
 
+    unsigned nfalhas1 = state->get_servidor1().get_n_falhas();
+    unsigned nfalhas2 = state->get_servidor2().get_n_falhas();
+    ui->n_falhas_s1->setText(QString::fromStdString(std::to_string(nfalhas1)));
+    ui->n_falhas_s2->setText(QString::fromStdString(std::to_string(nfalhas2)));
 
+    double tfalha1 = state->get_servidor1().get_t_servico();
+    double tfalha2 = state->get_servidor2().get_t_servico();
 
+    ui->t_falhas_s1->setText(QString::fromStdString(std::to_string(tfalha1)));
+    ui->t_falhas_s2->setText(QString::fromStdString(std::to_string(tfalha2)));
+
+    double simulation_time = state->get_oraculo().time();
+    double tempo_total = ui->t_tempo->toPlainText().toDouble();
+    if (simulation_time > tempo_total) {
+        simulation_time = tempo_total;
+    }
+
+    ui->tempo_simulacao->setText(QString::fromStdString(std::to_string(simulation_time)));
+
+    double pfalha1 = (tfalha1*100)/simulation_time;
+    double pfalha2 = (tfalha2*100)/simulation_time;
+
+    ui->p_falhas_s1->setText(QString::fromStdString(std::to_string(pfalha1)));
+    ui->p_falhas_s2->setText(QString::fromStdString(std::to_string(pfalha2)));
 
     ui->perdidas_t1->setText(QString::fromStdString(std::to_string(perdas1)));
     ui->perdidas_t2->setText(QString::fromStdString(std::to_string(perdas2)));

@@ -1289,6 +1289,32 @@ p, li { white-space: pre-wrap; }
       <string>- -</string>
      </property>
     </widget>
+    <widget class="QLabel" name="tempo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>740</y>
+       <width>141</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TEMPO DE SIMULACAO:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="tempo_simulacao">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>740</y>
+       <width>141</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>- -</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="simulacao">
     <property name="enabled">
