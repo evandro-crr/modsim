@@ -102,6 +102,16 @@ namespace mod {
 
     void evento_saida(Entidade entidade);
 
+    unsigned get_n_t1() {
+        return um;
+    }
+
+    unsigned get_n_t2() {
+        return dois;
+    }
+
+
+
   private:
     Oraculo &oraculo;
     unsigned um{0}, dois{0};
@@ -140,6 +150,18 @@ namespace mod {
 
     void add_chegada();
 
+    unsigned get_entradas() {
+        return entradas;
+    }
+
+    unsigned get_trocas() {
+        return trocas;
+    }
+
+    unsigned get_perdas() {
+        return perdas;
+    }
+
   private:
     Oraculo &oraculo;
     func::func tec;
@@ -167,6 +189,30 @@ namespace mod {
 
     bool run(double limit) {
       return oraculo.run(limit);
+    }
+
+    Oraculo &get_oraculo() {
+        return oraculo;
+    }
+
+    Saida &get_saida() {
+        return saida;
+    }
+
+    Servidor &get_servidor1() {
+        return servidor1;
+    }
+
+    Servidor &get_servidor2() {
+        return servidor2;
+    }
+
+    Chegada &get_chegada1() {
+        return chegada1;
+    }
+
+    Chegada &get_chegada2() {
+        return chegada2;
     }
 
    private:

@@ -44,8 +44,6 @@ void MainWindow::on_executar_clicked()
 
 }
 
-
-
 void MainWindow::on_avancar_clicked()
 {
     ui->simulacao->setEnabled(false);
@@ -57,26 +55,60 @@ void MainWindow::on_avancar_clicked()
     if (end) terminar_sim();
 }
 
-void MainWindow::update_relatorio() {}
+void MainWindow::update_relatorio()
+{
+    //QString::fromStdString(std::to_string())
+    unsigned perdas1 = state->get_chegada1().get_perdas();
+    unsigned entraram1 = state->get_chegada1().get_entradas();
+    unsigned entraram_s1 = entraram1-perdas1;
+    ui->entraram_t1->setText(QString::fromStdString(std::to_string(entraram_s1)));
 
-void MainWindow::terminar_sim() {
+    unsigned perdas2 = state->get_chegada2().get_perdas();
+    unsigned entraram2 = state->get_chegada2().get_entradas();
+    unsigned entraram_s2 = entraram2-perdas2;
+    ui->entraram_t2->setText(QString::fromStdString(std::to_string(entraram_s2)));
+
+    unsigned saida1 = state->get_saida().get_n_t1();
+    unsigned saida2 = state->get_saida().get_n_t2();
+
+    ui->sairam_t1->setText(QString::fromStdString(std::to_string(saida1)));
+    ui->sairam_t2->setText(QString::fromStdString(std::to_string(saida2)));
+
+    unsigned permanecem1 = entraram_s1-saida1;
+    unsigned permanecem2 = entraram_s2-saida2;
+    ui->permanecem_t1->setText(QString::fromStdString(std::to_string(permanecem1)));
+    ui->permanecem_t2->setText(QString::fromStdString(std::to_string(permanecem2)));
+
+
+
+
+    ui->perdidas_t1->setText(QString::fromStdString(std::to_string(perdas1)));
+    ui->perdidas_t2->setText(QString::fromStdString(std::to_string(perdas2)));
+
+    QString trocas1 = QString::fromStdString(std::to_string(state->get_chegada1().get_trocas()));
+    ui->trocas_t1->setText(trocas1);
+    QString trocas2 = QString::fromStdString(std::to_string(state->get_chegada2().get_trocas()));
+    ui->trocas_t2->setText(trocas2);
+}
+
+void MainWindow::terminar_sim()
+{
   ui->setup->setEnabled(true);
   ui->simulacao->setEnabled(false);
+  state.reset(nullptr);
 }
 
 void MainWindow::on_terminar_clicked()
 {
-    // executar com o tempo total
-
     double tempo_total = ui->t_tempo->toPlainText().toDouble();
     state->run(tempo_total);
+    update_relatorio();
     terminar_sim();
-    //QString str = QString::fromStdString(std::to_string(state->chegada1.perdas));
-    //ui->label->setText(str);
 }
 
 void MainWindow::on_cancelar_clicked()
 {
+    state.reset(nullptr);
     ui->setup->setEnabled(true);
     ui->simulacao->setEnabled(false);
 }

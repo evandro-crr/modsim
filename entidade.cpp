@@ -36,8 +36,8 @@ void mod::Chegada::add_chegada() {
 
     if (not primario.add_entidade(entidade)) {
       if (not secundario.add_entidade(entidade)) {
-        trocas++;
-      } else perdas++;
+        perdas++;
+      } else trocas++;
     }
     add_chegada();
   };
@@ -47,12 +47,13 @@ void mod::Chegada::add_chegada() {
 
 bool mod::Servidor::add_entidade(Entidade entidade) {
 
-  if ((tfe > 0 and fila.size() > tfe) or em_falha) return false;
-  entidade.begin_fila(oraculo.time());
-  fila.push(entidade);
-  executar_proximo(false);
-
-  return true;
+    if (tfe == 0 or fila.size() <= tfe) {
+        entidade.begin_fila(oraculo.time());
+        fila.push(entidade);
+        executar_proximo(false);
+        return true;
+    }
+    return false;
 }
 
 void mod::Servidor::executar_proximo(bool recuperacao) {
