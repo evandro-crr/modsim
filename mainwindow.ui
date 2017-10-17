@@ -941,7 +941,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="trocas_efetuadas">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>160</x>
        <y>680</y>
        <width>141</width>
        <height>16</height>
@@ -954,7 +954,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="l_tipo17">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>170</x>
        <y>700</y>
        <width>59</width>
        <height>15</height>
@@ -967,7 +967,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="l_tipo27">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>170</x>
        <y>720</y>
        <width>59</width>
        <height>15</height>
@@ -982,7 +982,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>100</x>
        <y>40</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -995,7 +995,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>100</x>
        <y>60</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1008,7 +1008,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>100</x>
        <y>100</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1021,7 +1021,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>100</x>
        <y>120</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1034,7 +1034,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>80</x>
        <y>160</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1047,7 +1047,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>80</x>
        <y>180</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1060,7 +1060,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>80</x>
        <y>220</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1073,7 +1073,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>80</x>
        <y>240</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1086,7 +1086,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>300</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1099,7 +1099,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>320</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1112,7 +1112,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>360</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1125,7 +1125,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>380</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1138,7 +1138,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>420</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1151,7 +1151,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>440</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1164,7 +1164,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>110</x>
        <y>500</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1177,7 +1177,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>110</x>
        <y>520</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1190,7 +1190,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>110</x>
        <y>580</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1203,7 +1203,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>110</x>
        <y>560</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1216,7 +1216,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>110</x>
        <y>620</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1229,7 +1229,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>110</x>
        <y>640</y>
-       <width>31</width>
+       <width>181</width>
        <height>16</height>
       </rect>
      </property>
@@ -1242,7 +1242,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>700</y>
-       <width>31</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -1255,7 +1255,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>90</x>
        <y>720</y>
-       <width>31</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -1266,9 +1266,9 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="trocas_t1">
      <property name="geometry">
       <rect>
-       <x>240</x>
+       <x>230</x>
        <y>700</y>
-       <width>31</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -1279,9 +1279,9 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="trocas_t2">
      <property name="geometry">
       <rect>
-       <x>240</x>
+       <x>230</x>
        <y>720</y>
-       <width>31</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
