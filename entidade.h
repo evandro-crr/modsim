@@ -110,7 +110,21 @@ namespace mod {
         return dois;
     }
 
+    double get_t1() {
+        return tempo_um;
+    }
 
+    double get_t2() {
+        return tempo_dois;
+    }
+
+    double get_tfila1() {
+        return tempo_em_fila_um;
+    }
+
+    double get_tfila2() {
+        return tempo_em_fila_dois;
+    }
 
   private:
     Oraculo &oraculo;
@@ -122,7 +136,7 @@ namespace mod {
 
   class Servidor{
   public:
-    Servidor(Oraculo &oraculo, func::func ts, func::func tef, func::func tf, Saida saida, unsigned tfe = 0)
+    Servidor(Oraculo &oraculo, func::func ts, func::func tef, func::func tf, Saida &saida, unsigned tfe = 0)
       : oraculo{oraculo}, ts{ts}, tef{tef}, tf{tf}, saida{saida}, tfe{tfe} {programar_falha();}
 
     bool add_entidade(Entidade entidade);
@@ -144,7 +158,7 @@ namespace mod {
   private:
     Oraculo &oraculo;
     func::func ts, tef, tf;
-    Saida saida;
+    Saida &saida;
     std::queue<Entidade> fila;
     unsigned tfe;
     bool em_falha{false};

@@ -47,7 +47,7 @@ void mod::Chegada::add_chegada() {
 
 bool mod::Servidor::add_entidade(Entidade entidade) {
 
-    if (tfe == 0 or fila.size() ) {
+    if (tfe == 0 or fila.size() < tfe) {
         entidade.begin_fila(oraculo.time());
         fila.push(entidade);
         executar_proximo(false);
@@ -108,7 +108,7 @@ void mod::Servidor::programar_falha() {
 
     auto recuperacao = [&] () {
       em_falha = false;
-      t_falha += (oraculo.time() - begin_falha);
+      t_falha += oraculo.time() - begin_falha;
 
       executar_proximo(true);
       programar_falha();

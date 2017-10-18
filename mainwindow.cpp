@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -59,7 +60,17 @@ void MainWindow::update_relatorio()
 {
     //QString::fromStdString(std::to_string())
 
+    double tempo1 = state->get_saida().get_t1();
+    double tempo2 = state->get_saida().get_t2();
+    unsigned saida1 = state->get_saida().get_n_t1();
+    unsigned saida2 = state->get_saida().get_n_t2();
+    ui->t_medio_sistema_t1->setText(QString::fromStdString(std::to_string(tempo1/saida1)));
+    ui->t_medio_sistema_t2->setText(QString::fromStdString(std::to_string(tempo2/saida2)));
 
+    double tfila1 = state->get_saida().get_tfila1();
+    double tfila2 = state->get_saida().get_tfila2();
+    ui->t_medio_fila_t1->setText(QString::fromStdString(std::to_string(tfila1/saida1)));
+    ui->t_medio_fila_t2->setText(QString::fromStdString(std::to_string(tfila2/saida2)));
 
     unsigned perdas1 = state->get_chegada1().get_perdas();
     unsigned entraram1 = state->get_chegada1().get_entradas();
@@ -71,8 +82,6 @@ void MainWindow::update_relatorio()
     unsigned entraram_s2 = entraram2-perdas2;
     ui->entraram_t2->setText(QString::fromStdString(std::to_string(entraram_s2)));
 
-    unsigned saida1 = state->get_saida().get_n_t1();
-    unsigned saida2 = state->get_saida().get_n_t2();
     ui->sairam_t1->setText(QString::fromStdString(std::to_string(saida1)));
     ui->sairam_t2->setText(QString::fromStdString(std::to_string(saida2)));
 
@@ -86,8 +95,8 @@ void MainWindow::update_relatorio()
     ui->n_falhas_s1->setText(QString::fromStdString(std::to_string(nfalhas1)));
     ui->n_falhas_s2->setText(QString::fromStdString(std::to_string(nfalhas2)));
 
-    double tfalha1 = state->get_servidor1().get_t_servico();
-    double tfalha2 = state->get_servidor2().get_t_servico();
+    double tfalha1 = state->get_servidor1().get_t_falha();
+    double tfalha2 = state->get_servidor2().get_t_falha();
 
     ui->t_falhas_s1->setText(QString::fromStdString(std::to_string(tfalha1)));
     ui->t_falhas_s2->setText(QString::fromStdString(std::to_string(tfalha2)));
