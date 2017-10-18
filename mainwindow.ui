@@ -1068,7 +1068,7 @@ p, li { white-space: pre-wrap; }
       <string>- -</string>
      </property>
     </widget>
-    <widget class="QLabel" name="t_medio_fila_t2_2">
+    <widget class="QLabel" name="t_medio_sistema_t2">
      <property name="geometry">
       <rect>
        <x>80</x>
