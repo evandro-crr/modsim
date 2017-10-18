@@ -488,12 +488,12 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>80</y>
-       <width>231</width>
+       <width>261</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Taxa Média de Ocupação dos Servidores</string>
+      <string>%Taxa Média de Ocupação dos Servidores</string>
      </property>
     </widget>
     <widget class="QLabel" name="entidade_fila_tempo">
@@ -579,12 +579,12 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>260</y>
-       <width>59</width>
-       <height>15</height>
+       <width>81</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Contador</string>
+      <string>Contadores</string>
      </property>
     </widget>
     <widget class="QLabel" name="entraram_sistema">
@@ -891,12 +891,12 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>660</y>
-       <width>141</width>
+       <width>201</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Contagem de trocas</string>
+      <string>Contagem de trocas e perdas</string>
      </property>
     </widget>
     <widget class="QLabel" name="entidades_perdidas">

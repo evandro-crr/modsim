@@ -60,6 +60,9 @@ void MainWindow::update_relatorio()
 {
     //QString::fromStdString(std::to_string())
 
+    double tserv1 = state->get_servidor1().get_t_servico();
+    double tserv2 = state->get_servidor2().get_t_servico();
+
     double tempo1 = state->get_saida().get_t1();
     double tempo2 = state->get_saida().get_t2();
     unsigned saida1 = state->get_saida().get_n_t1();
@@ -107,6 +110,9 @@ void MainWindow::update_relatorio()
         simulation_time = tempo_total;
     }
 
+    ui->t_media_ocupacao_s1->setText(QString::fromStdString(std::to_string((tserv1*100)/(tempo_total-tfalha1))));
+    ui->t_media_ocupacao_s2->setText(QString::fromStdString(std::to_string((tserv2*100)/(tempo_total-tfalha2))));
+
     ui->tempo_simulacao->setText(QString::fromStdString(std::to_string(simulation_time)));
 
     double pfalha1 = (tfalha1*100)/simulation_time;
@@ -126,9 +132,9 @@ void MainWindow::update_relatorio()
 
 void MainWindow::terminar_sim()
 {
+  state.reset(nullptr);
   ui->setup->setEnabled(true);
   ui->simulacao->setEnabled(false);
-  state.reset(nullptr);
 }
 
 void MainWindow::on_terminar_clicked()
