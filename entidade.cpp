@@ -35,9 +35,10 @@ void mod::Chegada::add_chegada() {
     Entidade entidade{oraculo.time(), tipo};
 
     if (not primario.add_entidade(entidade)) {
-      if (not secundario.add_entidade(entidade)) {
+      if (secundario.add_entidade(entidade))
+         trocas++;
+      else
         perdas++;
-      } else trocas++;
     }
     add_chegada();
   };
@@ -50,6 +51,7 @@ bool mod::Servidor::add_entidade(Entidade entidade) {
     if ((tfe == 0 or fila.size() <= tfe) and !em_falha) {
         entidade.begin_fila(oraculo.time());
         fila.push(entidade);
+        if (fila.size() > 1) nfila++;
         executar_proximo(false);
         return true;
     }

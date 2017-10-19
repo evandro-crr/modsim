@@ -110,13 +110,13 @@ void MainWindow::update_relatorio()
         simulation_time = tempo_total;
     }
 
-    ui->t_media_ocupacao_s1->setText(QString::fromStdString(std::to_string((tserv1*100)/(tempo_total-tfalha1))));
-    ui->t_media_ocupacao_s2->setText(QString::fromStdString(std::to_string((tserv2*100)/(tempo_total-tfalha2))));
+    ui->t_media_ocupacao_s1->setText(QString::fromStdString(std::to_string((tserv1)/(tempo_total))));
+    ui->t_media_ocupacao_s2->setText(QString::fromStdString(std::to_string((tserv2)/(tempo_total))));
 
     ui->tempo_simulacao->setText(QString::fromStdString(std::to_string(simulation_time)));
 
-    double pfalha1 = (tfalha1*100)/simulation_time;
-    double pfalha2 = (tfalha2*100)/simulation_time;
+    double pfalha1 = (tfalha1)/simulation_time;
+    double pfalha2 = (tfalha2)/simulation_time;
 
     ui->p_falhas_s1->setText(QString::fromStdString(std::to_string(pfalha1)));
     ui->p_falhas_s2->setText(QString::fromStdString(std::to_string(pfalha2)));
@@ -128,6 +128,14 @@ void MainWindow::update_relatorio()
     ui->trocas_t1->setText(trocas1);
     QString trocas2 = QString::fromStdString(std::to_string(state->get_chegada2().get_trocas()));
     ui->trocas_t2->setText(trocas2);
+
+
+    unsigned nfila1 = state->get_servidor1().get_nfila();
+    unsigned nfila2 = state->get_servidor2().get_nfila();
+    QString m_fila1 = QString::fromStdString(std::to_string(nfila1/simulation_time));
+    QString m_fila2 = QString::fromStdString(std::to_string(nfila2/simulation_time));
+    ui->n_medio_filas_s1->setText(m_fila1);
+    ui->n_medio_filas_s2->setText(m_fila2);
 }
 
 void MainWindow::terminar_sim()

@@ -91,7 +91,7 @@ namespace mod {
 
   private:
     double begin;
-    double fila_begin, fila_end;
+    double fila_begin{0}, fila_end{};
     Tipo tipo_;
 
   };
@@ -148,23 +148,31 @@ namespace mod {
     }
 
     double get_t_falha() {
-        return t_falha;
+      if (em_falha)
+        return t_falha + (oraculo.time() - begin_falha);
+      else return t_falha;
     }
 
     double get_t_servico() {
-        return t_servico;
+      if (ocupado)
+        return t_servico+(oraculo.time() - begin_ocupado);
+      else return t_servico;
+    }
+
+    unsigned get_nfila() {
+        return nfila;
     }
 
   private:
     Oraculo &oraculo;
     func::func ts, tef, tf;
     Saida &saida;
-    std::queue<Entidade> fila;
-    unsigned tfe;
+    std::queue<Entidade> fila{};
+    unsigned tfe, nfila{0};
     bool em_falha{false};
     unsigned n_falhas{0};
     double t_servico{0}, t_falha{0};
-    double begin_ocupado, begin_falha;
+    double begin_ocupado{0}, begin_falha{0};
     bool ocupado{false};
 
   };
@@ -194,7 +202,7 @@ namespace mod {
     Entidade::Tipo tipo;
     Servidor &primario, &secundario;
     unsigned entradas{0}, trocas{0};
-    inline static unsigned perdas{0};
+    unsigned perdas{0};
   };
 
   class Estado {
