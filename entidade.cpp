@@ -51,7 +51,18 @@ bool mod::Servidor::add_entidade(Entidade entidade) {
     if ((tfe == 0 or fila.size() <= tfe) and !em_falha) {
         entidade.begin_fila(oraculo.time());
         fila.push(entidade);
-        if (fila.size() > 1) nfila++;
+        if (not init) {
+          init = true;
+          ponderacao = oraculo.time();
+          mfila = fila.size()-1;
+          last_time = oraculo.time();
+        } else if (last_time != oraculo.time()){
+          double peso = (oraculo.time()-last_time)/ponderacao;
+          peso = (fila.size()-1)/peso;
+          mfila  = (mfila + peso)/2;
+          last_time = oraculo.time();
+        }
+        std::cout << "mfila " << mfila << "\n";
         executar_proximo(false);
         return true;
     }

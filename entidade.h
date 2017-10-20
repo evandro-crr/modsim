@@ -159,8 +159,8 @@ namespace mod {
       else return t_servico;
     }
 
-    unsigned get_nfila() {
-        return nfila;
+    double get_mfila() {
+      return mfila;
     }
 
   private:
@@ -168,12 +168,14 @@ namespace mod {
     func::func ts, tef, tf;
     Saida &saida;
     std::queue<Entidade> fila{};
-    unsigned tfe, nfila{0};
+    unsigned tfe;
     bool em_falha{false};
     unsigned n_falhas{0};
     double t_servico{0}, t_falha{0};
     double begin_ocupado{0}, begin_falha{0};
+    double last_time{0}, mfila{0}, ponderacao;
     bool ocupado{false};
+    bool init{false};
 
   };
 

@@ -130,10 +130,10 @@ void MainWindow::update_relatorio()
     ui->trocas_t2->setText(trocas2);
 
 
-    unsigned nfila1 = state->get_servidor1().get_nfila();
-    unsigned nfila2 = state->get_servidor2().get_nfila();
-    QString m_fila1 = QString::fromStdString(std::to_string(nfila1/simulation_time));
-    QString m_fila2 = QString::fromStdString(std::to_string(nfila2/simulation_time));
+    double mfila1 = state->get_servidor1().get_mfila();
+    double mfila2 = state->get_servidor2().get_mfila();
+    QString m_fila1 = QString::fromStdString(std::to_string(mfila1));
+    QString m_fila2 = QString::fromStdString(std::to_string(mfila2));
     ui->n_medio_filas_s1->setText(m_fila1);
     ui->n_medio_filas_s2->setText(m_fila2);
 }
