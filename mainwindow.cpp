@@ -1,7 +1,7 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <iostream>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -37,23 +37,15 @@ void MainWindow::on_executar_clicked()
                                             tempo_total);
       ui->setup->setEnabled(false);
       ui->simulacao->setEnabled(true);
+      pause = true;
+      ui->cancelar->setEnabled(true);
+      clean_relatorio();
     } catch (std::invalid_argument &e) {
       QMessageBox messege{this};
       messege.setText(e.what());
       messege.exec();
     }
 
-}
-
-void MainWindow::on_avancar_clicked()
-{
-    ui->simulacao->setEnabled(false);
-    double tempo = ui->t_exec->toPlainText().toDouble();
-
-    auto end = state->run(tempo);
-    update_relatorio();
-    ui->simulacao->setEnabled(true);
-    if (end) terminar_sim();
 }
 
 void MainWindow::update_relatorio()
@@ -110,8 +102,8 @@ void MainWindow::update_relatorio()
         simulation_time = tempo_total;
     }
 
-    ui->t_media_ocupacao_s1->setText(QString::fromStdString(std::to_string((tserv1)/(tempo_total))));
-    ui->t_media_ocupacao_s2->setText(QString::fromStdString(std::to_string((tserv2)/(tempo_total))));
+    ui->t_media_ocupacao_s1->setText(QString::fromStdString(std::to_string((tserv1)/(simulation_time-tfalha1))));
+    ui->t_media_ocupacao_s2->setText(QString::fromStdString(std::to_string((tserv2)/(simulation_time-tfalha2))));
 
     ui->tempo_simulacao->setText(QString::fromStdString(std::to_string(simulation_time)));
 
@@ -138,24 +130,97 @@ void MainWindow::update_relatorio()
     ui->n_medio_filas_s2->setText(m_fila2);
 }
 
-void MainWindow::terminar_sim()
+void MainWindow::clean_setup()
 {
-  state.reset(nullptr);
-  ui->setup->setEnabled(true);
-  ui->simulacao->setEnabled(false);
+    ui->t_tec1->setText("");
+    ui->t_tec2->setText("");
+    ui->t_tef1->setText("");
+    ui->t_tef2->setText("");
+    ui->t_tempo->setText("");
+    ui->t_tf1->setText("");
+    ui->t_tf2->setText("");
+    ui->t_tfe1->setText("");
+    ui->t_tfe2->setText("");
+    ui->t_ts1->setText("");
+    ui->t_ts2->setText("");
+}
+
+void MainWindow::clean_relatorio()
+{
+    ui->t_medio_sistema_t1->setText("--");
+    ui->t_medio_sistema_t2->setText("--");
+
+    ui->t_medio_fila_t1->setText("--");
+    ui->t_medio_fila_t2->setText("--");
+
+    ui->entraram_t1->setText("--");
+    ui->entraram_t2->setText("--");
+
+    ui->sairam_t1->setText("--");
+    ui->sairam_t2->setText("--");
+
+    ui->permanecem_t1->setText("--");
+    ui->permanecem_t2->setText("--");
+
+    ui->n_falhas_s1->setText("--");
+    ui->n_falhas_s2->setText("--");
+
+    ui->t_falhas_s1->setText("--");
+    ui->t_falhas_s2->setText("--");
+
+    ui->t_media_ocupacao_s1->setText("--");
+    ui->t_media_ocupacao_s2->setText("--");
+
+    ui->tempo_simulacao->setText("--");
+
+    ui->p_falhas_s1->setText("--");
+    ui->p_falhas_s2->setText("--");
+
+    ui->perdidas_t1->setText("--");
+    ui->perdidas_t2->setText("--");
+
+    ui->trocas_t1->setText("--");
+    ui->trocas_t2->setText("--");
+
+    ui->n_medio_filas_s1->setText("--");
+    ui->n_medio_filas_s2->setText("--");
 }
 
 void MainWindow::on_terminar_clicked()
 {
+    ui->simulacao->setEnabled(false);
+    pause = false;
     double tempo_total = ui->t_tempo->toPlainText().toDouble();
-    state->run(tempo_total);
-    update_relatorio();
-    terminar_sim();
+    std::function<void()> update = [&]() {update_relatorio();};
+    worker = new Worker(state, ui, update, tempo_total);
+
+    worker->start();
 }
 
-void MainWindow::on_cancelar_clicked()
+void MainWindow::on_avancar_clicked()
 {
-    state.reset(nullptr);
-    ui->setup->setEnabled(true);
     ui->simulacao->setEnabled(false);
+    pause = false;
+    double tempo = ui->t_exec->toPlainText().toDouble();
+    std::function<void()> update = [&]() {update_relatorio();};
+    worker = new Worker(state, ui, update, tempo);
+
+    worker->start();
+}
+
+void MainWindow::on_pausar_cancelar_clicked()
+{
+    if(!pause) {
+        pause = true;
+        ui->simulacao->setEnabled(true);
+        state->get_oraculo().pause();
+        while(!worker->isFinished()) {}
+        update_relatorio();
+        state->get_oraculo().unpause();
+    } else {
+        ui->simulacao->setEnabled(false);
+        ui->cancelar->setEnabled(false);
+        ui->setup->setEnabled(true);
+        clean_setup();
+    }
 }

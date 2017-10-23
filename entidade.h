@@ -1,10 +1,10 @@
 #ifndef ENTIDADE_H
 #define ENTIDADE_H
-#include "funcoes.h"
+
 #include <set>
 #include <sstream>
-#include <functional>
 #include <queue>
+#include "funcoes.h"
 
 namespace mod {
 
@@ -49,11 +49,20 @@ namespace mod {
 
     bool run(double limit);
 
+    void unpause() {
+        pause_ = false;
+    }
+
+    void pause() {
+        pause_ = true;
+    }
+
     double time() const {
       return time_;
     }
 
   private:
+    bool pause_{false};
     double time_{0};
     const double tempo_total;
     std::multiset<Event> events{};

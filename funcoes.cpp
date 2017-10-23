@@ -1,8 +1,9 @@
-#include "funcoes.h"
+
 #include <stdexcept>
 #include <sstream>
 #include <random>
 #include <cmath>
+#include "funcoes.h"
 
 namespace func {
 
