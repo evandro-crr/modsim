@@ -206,6 +206,7 @@ void MainWindow::on_avancar_clicked()
     worker = new Worker(state, ui, update, tempo);
 
     worker->start();
+    update_relatorio();
 }
 
 void MainWindow::on_pausar_cancelar_clicked()
@@ -221,6 +222,6 @@ void MainWindow::on_pausar_cancelar_clicked()
         ui->simulacao->setEnabled(false);
         ui->cancelar->setEnabled(false);
         ui->setup->setEnabled(true);
-        clean_setup();
+        //clean_setup();
     }
 }

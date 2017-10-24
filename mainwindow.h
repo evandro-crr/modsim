@@ -15,9 +15,11 @@ class Worker : public QThread
 {
     Q_OBJECT
     std::unique_ptr<mod::Estado> &state;
-    double &tempo;
     Ui::MainWindow *ui;
     std::function<void()> update;
+    double &tempo;
+
+
 
     void run() override {
         auto end = state->run(tempo);

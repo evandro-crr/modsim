@@ -3,7 +3,7 @@
 
 template <class F>
 void mod::Oraculo::add_event(F call, double time, std::string text) {
-  std::cout << "add: " << text << "(" << time << ")\n";
+  //std::cout << "add: " << text << "(" << time << ")\n";
   events.insert(Event{call, time, text});
 }
 
@@ -19,7 +19,7 @@ bool mod::Oraculo::run(double limit) {
       break;
     }
 
-    std::cout << "exec: " << (std::string)event << "\n";
+    //std::cout << "exec: " << (std::string)event << "\n";
     time_ = event;
     event();
 
@@ -58,11 +58,12 @@ bool mod::Servidor::add_entidade(Entidade entidade) {
           last_time = oraculo.time();
         } else if (last_time != oraculo.time()){
           double peso = (oraculo.time()-last_time)/ponderacao;
-          peso = (fila.size()-1)/peso;
-          mfila  = (mfila + peso)/2;
+          std::cout << "peso " << peso <<"\n";
+          mfila  = mfila*(1/(1+peso)) + (fila.size()-1)*(peso/(1+peso));
           last_time = oraculo.time();
+          std::cout << "fila " << fila.size() << "\n";
+          std::cout << "mfila " << mfila << "\n";
         }
-        std::cout << "mfila " << mfila << "\n";
         executar_proximo(false);
         return true;
     }
