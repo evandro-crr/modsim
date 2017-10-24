@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\usepackage[brazil]{babel}
+\usepackage{fontspec}
+
+\title{Modelagem e Simulação - INE 5425\\
+Programa de Simulação em Linguagem de Propósito Geral}
+
+\author{Evandro Chagas Ribeiro da Rosa}
+
+\begin{document}
+
+\maketitle
+
+\section{Implementação}
+A implementação foi feita em \texttt{C++11} utilizando \texttt{Qt} para interface gráfica.
+
+\subsection{Eventos}
+A gerencias dos eventos é feita pela classe \texttt{mod::Oraculo}, com os
+seguintes atributos:
+
+\begin{itemize}
+  \item \texttt{tempo\_}: guarda o tempo atual da simulação
+  \item \texttt{tempo\_total}: tempo que a simulação deve terminar.
+  \item \texttt{events}, do tipo \texttt{std::multiset<Event>}, guarda os eventos
+    ordenados pelo tempo em uma arvore \textit{RB}.
+\end{itemize}
+
+Os eventos são da classe \texttt{mod::Event} que contem:
+\begin{itemize}
+  \item \texttt{time\_}: tempo em que o evento deve ser executado, utilizado para atribuir 
+    uma relação de ordem entre os eventos.
+  \item \texttt{text}: uma descrição do evento, utilizado para \textit{debugging}.
+  \item \texttt{call}: do tipo \texttt{std::function<void()>}, todo evento é um método 
+    que recebe e retorna \texttt{void};
+\end{itemize}
+
+\subsubsection{Adicionar Evento} 
+Para adicionar um evento basta chamar a função \texttt{mod::Oraculo::add\_event} passando o
+método que sera chamado no evento (\texttt{F call}), tempo no qual o evento será chamado
+(\texttt{double time}) e a descrição do evento (\texttt{std::string text}). O Evento será
+criado com esse parâmetros e adiciono em \texttt{events}.
+
+\subsubsection{Executar Eventos}
+A função \texttt{mod::Oraculo::run} recebe como argumento o tempo limite de execução
+(\texttt{double limit}), os eventos serão chamados em ordem em quanto não estourar
+o tempo limite ou o tempo total de execução.
+
+\subsection{Funções de probabilidade}
+As funções de probabilidade são geradas pelo método \texttt{mod::parser} que recebe um 
+\texttt{std::string} e retorna um \texttt{func::func (Aka std::function<double()>)}. 
+A \texttt{std::string text} deve seguir os seguintes padrões:
+\begin{itemize}
+  \item \texttt{expo media}: Exponencial.
+  \item \texttt{norm media dp}: Normal.
+  \item \texttt{tria min moda max}: Triangular
+  \item \texttt{unif min max} : Uniforme;
+  \item \texttt{cons valor}: retorna sempre valor.
+\end{itemize}
+
+\subsection{Elementos da modelagem}
+Todos elementos da modelagem estão conectados na classe \texttt{Estado}, a baixo segue a lista do elementos e por quais estatísticas são responsáveis.
+
+\begin{itemize}
+  \item \texttt{Entidade}: pode ser do \texttt{Tipo} \texttt{um} ou \texttt{dois}. Não 
+    aparece na classe \texttt{Estado} por ser um elemento dinâmico transita pela simulação.
+    Responsável pelas estatísticas  de ``Tempo Médio de uma Entidade na Fila'' e ``Tempo 
+    Médio no Sistema''.
+\end{itemize}
+
+\end{document}
+
